@@ -20,10 +20,9 @@ function createWindow () {
       ? 'http://localhost:1234/'
       : `file://${path.join(__dirname, "./dist/index.html")}`
   )
-  // win.loadFile('./dist/index.html')
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  !app.isPackaged && win.webContents.openDevTools()
 
   win.on("closed", () => (win = null));
 }
