@@ -28,6 +28,9 @@ const App = () => {
           <Route strict exact path="/settings">
             <SettingsScreen/>
           </Route>
+          <Route>
+            <FillHoursScreen />
+          </Route>
         </Switch>
       </div>
     </Router>
