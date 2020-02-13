@@ -57,7 +57,7 @@ const SettingsScreen = () => {
   return (
     <div className="container w-screen justify-center items-center p-2 relative">
       <form onSubmit={onSubmit} className="w-full mx-auto max-w-md">
-        <h3 className="text-3xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
+        <h3 className="text-xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
           Settings
         </h3>
         {SETTINGS_FIELDS.map(fieldName => (
