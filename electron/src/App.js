@@ -22,15 +22,9 @@ const App = () => {
       </div>
       <div className="bg-gray-100 w-screen h-screen pt-6">
         <Switch>
-          <Route exact path="/" >
-            <FillHoursScreen />
-          </Route>
-          <Route strict exact path="/settings">
-            <SettingsScreen/>
-          </Route>
-          <Route>
-            <FillHoursScreen />
-          </Route>
+          <Route exact path="/" component={FillHoursScreen}/>
+          <Route exact path="/settings" component={SettingsScreen} />
+          <Route path="/:wtv" component={SettingsScreen} />
         </Switch>
       </div>
     </Router>
