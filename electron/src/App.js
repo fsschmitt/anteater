@@ -24,7 +24,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={FillHoursScreen}/>
           <Route exact path="/settings" component={SettingsScreen} />
-          <Route path="/:wtv" component={FillHoursScreen} />
+          <Redirect from="/:wtv" to="/" />
         </Switch>
       </div>
     </Router>
