@@ -2,7 +2,9 @@ const ipc = require('electron').ipcMain;
 const path = require('path')
 const { app, BrowserWindow } = require('electron')
 
-require('electron-reload')(__dirname)
+if (!app.isPackaged) {
+  require('electron-reload')(__dirname)
+}
 
 function createWindow () {
   // Create the browser window.
