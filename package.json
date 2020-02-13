@@ -2,8 +2,10 @@
   "name": "blueant",
   "version": "1.0.0",
   "description": "",
-  "main": "blueant.js",
+  "main": "main.js",
   "scripts": {
+    "start-p": "node ./puppeteer/blueant.js",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,6 +14,7 @@
     "puppeteer": "^2.1.1"
   },
   "devDependencies": {
+    "electron": "^8.0.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.20.1",
