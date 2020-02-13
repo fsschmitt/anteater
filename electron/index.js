@@ -1,14 +1,18 @@
 const ipc = require('electron').ipcMain;
+const path = require('path')
 const { app, BrowserWindow } = require('electron')
+
+require('electron-reload')(__dirname)
 
 function createWindow () {
   // Create the browser window.
   let win = new BrowserWindow({
     width: 350,
-    height: 400,
+    height: 600,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: path.join(__dirname, 'assets/icons/icon.png')
   })
 
   // and load the index.html of the app.

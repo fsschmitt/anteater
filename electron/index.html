@@ -3,27 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reminder: fill the hours blablabla</title>
+  <title>Anteater: Blueant made easy</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,500,600,700,800,900&display=swap" rel="stylesheet">
 </head>
 <body>
   <form>
     <h3>What have you done this week?</h3>
-    <label>Monday</label>
-    <input type="text" name="Monday" />
-    <label>Tuesday</label>
-    <input type="text" name="Tuesday" />
-    <label>Wednesday</label>
-    <input type="text" name="Wednesday" />
-    <label>Thursday</label>
-    <input type="text" name="Thursday" />
-    <label>Friday</label>
-    <input type="text" name="Friday" />
+    <div class="daily-entry">
+      <label>Monday</label>
+      <hr>
+      <input type="text" name="Monday" />
+    </div>
+    <div class="daily-entry">
+      <label>Tuesday</label>
+      <hr>
+      <input type="text" name="Tuesday" />
+    </div>
+    <div class="daily-entry">
+      <label>Wednesday</label>
+      <hr>
+      <input type="text" name="Wednesday" />
+    </div>
+    <div class="daily-entry">
+      <label>Thursday</label>
+      <hr>
+      <input type="text" name="Thursday" />
+    </div>
+    <div class="daily-entry">
+      <label>Friday</label>
+      <hr>
+      <input type="text" name="Friday" />
+    </div>
     <input type="submit" value="Fill it!" />
   </form>
-  <h4>Status:</h4>
-  <div id="status">
-    Not submitted
+  <div class="status-wrap">
+    <h4>Status:</h4>
+    <div id="status">
+      Not submitted
+    </div>
   </div>
   <script type="text/javascript" src="./script.js"></script>
 </body>
