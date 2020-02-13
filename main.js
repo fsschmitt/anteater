@@ -1,40 +1,31 @@
 const { app, BrowserWindow } = require('electron')
-const isDev = require("electron-is-dev");
+const path = require('path')
+let win;
 require('./eventBus');
 
 function createWindow () {
   // Create the browser window.
-  let win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 560,
     height: 690,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: path.join(__dirname, 'assets/icons/icon.png')
   })
 
   // and load the index.html of the app.
-  win.loadURL(
-    isDev
-      ? 'http://localhost:1234'
-      : `file://${path.join(__dirname, "../dist/index.html")}`
-  )
+  // win.loadURL(
+  //   !app.isPackaged
+  //     ? 'http://localhost:1234'
+  //     : `file://${path.join(__dirname, "./dist/index.html")}`
+  // )
+  win.loadFile('./dist/index.html')
 
   // Open the DevTools.
-  isDev && win.webContents.openDevTools()
+  app.isPackaged && win.webContents.openDevTools()
 
-  win.on("closed", () => (mainWindow = null));
+  win.on("closed", () => (win = null));
 }
-
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
-});
-
-app.on("activate", () => {
-  if (mainWindow === null) {
-    createWindow();
-  }
-});
 
 app.whenReady().then(createWindow)
