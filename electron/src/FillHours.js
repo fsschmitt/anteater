@@ -110,7 +110,7 @@ const FillHoursScreen = () => {
             className={cn(
               { "cursor-not-allowed": isLoading },
               { "opacity-25": isLoading },
-              "bg-blue-800 flex-grow-0 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+              "bg-blue-800 flex-grow-0 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded cursor-pointer"
             )}
             type="button"
             value="Fill it!"
