@@ -36,8 +36,10 @@ document.querySelector('form').addEventListener('submit', function(event){
 
   ipc.on('fillBlueantStatus', function(event, response){
     document.querySelector('#status').innerHTML = `Blueant status: ${response}`
+    document.getElementById('submit-ba').disabled = false;
   })
 
   ipc.send('fillBlueant', daysWithValues);
   document.querySelector('#status').innerHTML = 'Filling your blueant...'
+  document.getElementById('submit-ba').disabled = true;
 });

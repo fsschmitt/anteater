@@ -44,21 +44,26 @@ form input[type="submit"] {
   cursor: pointer;
 }
 
+#submit-ba:disabled {
+  background-color: #C5C5C5;
+  cursor: default;
+}
+
 .daily-entry {
   margin: 5px auto;
 }
 
-.status-wrap {
+#status-wrap {
   width: 80%;
   margin: 0 auto;
   text-align: center;
 }
 
-.status-wrap h4 {
+#status-wrap h4 {
   display: inline-block;
   margin: 10px auto;
 }
 
-.status-wrap div {
+#status-wrap div {
   display: inline-block;
 }
