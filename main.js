@@ -20,7 +20,7 @@ function createWindow () {
   )
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  isDev && win.webContents.openDevTools()
 
   win.on("closed", () => (mainWindow = null));
 }
