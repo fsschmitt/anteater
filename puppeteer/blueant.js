@@ -1,10 +1,10 @@
 const puppeteer = require('puppeteer');
 const settings = require('../settings.json');
 
-const run = (blueAntEntries) => {
+const run = (blueAntEntries, options) => {
   return new Promise(async (res, rej) => {
     try {
-      await runPuppeteer(blueAntEntries)
+      await runPuppeteer(blueAntEntries, options)
       res()
     } catch(e) {
       rej();
@@ -55,6 +55,10 @@ const runPuppeteer = async (blueAntEntries, options = { headless: true }) => {
   let weekDays = await frame.$$('.cm_curr_kw_day:not(.cm_weekend)')
 
   for (var i = 0; i < weekDays.length; i++) {
+    if(!blueAntEntries[i].text) {
+      continue;
+    }
+
     await weekDays[i].click()
 
     // Time Duration
