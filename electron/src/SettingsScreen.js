@@ -58,7 +58,7 @@ const SettingsScreen = () => {
   return (
     <div className="container w-screen justify-center items-center p-2 relative">
       <form onSubmit={onSubmit} className="w-full mx-auto max-w-md">
-        <h3 className="text-3xl border-b mb-2 text-yellow-800 leading-loose text-yellow font-bold">
+        <h3 className="text-3xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
           Settings
         </h3>
         {SETTINGS_FIELDS.map(fieldName => (
@@ -70,7 +70,7 @@ const SettingsScreen = () => {
             </div>
             <div className="md:w-2/3">
               <input
-                className="bg-gray-100 appearance-none border-2 border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-600"
+                className="bg-gray-100 appearance-none border-2 border-gray-300 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600"
                 type={fieldName === 'password' ? 'password' : 'text'}
                 name={fieldName}
                 onChange={e => {
@@ -83,7 +83,7 @@ const SettingsScreen = () => {
           </div>
         ))}
         <input
-          className="bg-yellow-800 flex-grow-0 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-800 flex-grow-0 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
           type="submit"
           value="Save!"
         />
