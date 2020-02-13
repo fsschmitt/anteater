@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, NavLink, Redirect } from "react-router-dom";
+import { MemoryRouter as Router, Switch, Route, NavLink, Redirect } from "react-router-dom";
 import FillHoursScreen from "./FillHours";
 import SettingsScreen from "./SettingsScreen";
 
