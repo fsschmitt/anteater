@@ -82,7 +82,7 @@ const FillHoursScreen = () => {
           className={cn("w-full mx-auto max-w-md", { "opacity-50": isLoading })}
           onSubmit={onSubmit}
         >
-          <h3 className="text-3xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
+          <h3 className="text-xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
             What have you done this week?
           </h3>
           {days.map(weekday => (
