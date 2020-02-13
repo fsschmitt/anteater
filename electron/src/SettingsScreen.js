@@ -33,11 +33,10 @@ const SettingsScreen = () => {
 
   useEffect(() => {
     try {
-      fs.accessSync(settingsFileLocation)
       const localSettings = fs.readFileSync(settingsFileLocation, "utf-8");
       setSettings(JSON.parse(localSettings));
     } catch(e) {
-      console.log('Settings file not found');
+      console.log('Settings file not found', e);
     }
   }, []);
 

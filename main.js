@@ -17,12 +17,13 @@ function createWindow () {
   // and load the index.html of the app.
   win.loadURL(
     !app.isPackaged
-      ? 'http://localhost:1234'
+      ? 'http://localhost:1234/'
       : `file://${path.join(__dirname, "./dist/index.html")}`
   )
+  // win.loadFile('./dist/index.html')
 
   // Open the DevTools.
-  app.isPackaged && win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   win.on("closed", () => (win = null));
 }
