@@ -104,4 +104,4 @@ dist
 .tern-port
 
 settings.json
-.release-builds/
+release-builds/
