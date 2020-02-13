@@ -1,10 +1,20 @@
 const puppeteer = require('puppeteer');
-const settings = require('./settings.json');
-const blueAntEntries = require('./input.json');
+const settings = require('../settings.json');
 
-(async () => {
+const run = (blueAntEntries) => {
+  return new Promise(async (res, rej) => {
+    try {
+      await runPuppeteer(blueAntEntries)
+      res()
+    } catch(e) {
+      rej();
+    }
+  })
+}
+
+const runPuppeteer = async (blueAntEntries, options = { headless: true }) => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: options.headless,
     slowMo: 25
   })
   const page = await browser.newPage()
@@ -29,11 +39,11 @@ const blueAntEntries = require('./input.json');
 
   await page.waitForSelector('#login_content > .login_area > #login_form > form > .button')
   await page.click('#login_content > .login_area > #login_form > form > .button')
-  
+
   await navigationPromise
 
   await navigationPromise
-  
+
   // Time recording
   await page.waitForSelector('.nano-content > li:nth-child(2)')
   await page.click('.nano-content > li:nth-child(2)')
@@ -46,7 +56,7 @@ const blueAntEntries = require('./input.json');
 
   for (var i = 0; i < weekDays.length; i++) {
     await weekDays[i].click()
-    
+
     // Time Duration
     const durationSelector = 'input[name=dauer]'
     await frame.waitForSelector(durationSelector)
@@ -95,4 +105,6 @@ const blueAntEntries = require('./input.json');
   }
 
   await browser.close()
-})()
+}
+
+module.exports = run;
