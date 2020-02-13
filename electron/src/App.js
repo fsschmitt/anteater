@@ -20,7 +20,7 @@ const App = () => {
           </li>
         </ul>
       </div>
-      <div className="bg-gray-100 w-screen h-full pt-6">
+      <div className="bg-gray-100 w-screen h-screen pt-6">
         <Switch>
           <Route exact path="/" >
             <FillHoursScreen />
