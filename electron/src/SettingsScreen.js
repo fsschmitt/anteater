@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import fs from "fs";
 const ipc = window.require("electron").ipcRenderer;
 
+const settingsFileLocation ="./settings.json";
+
 const defaultSettings = {
   customerName: "KI Group",
   projectName: "KI labs Portugal - internal 2020 (KI labs Portugal - int 2020)",
@@ -30,8 +32,13 @@ const SettingsScreen = () => {
   };
 
   useEffect(() => {
-    const localSettings = fs.readFileSync("./settings.json", "utf-8");
-    setSettings(JSON.parse(localSettings));
+    try {
+      fs.accessSync(settingsFileLocation)
+      const localSettings = fs.readFileSync(settingsFileLocation, "utf-8");
+      setSettings(JSON.parse(localSettings));
+    } catch(e) {
+      console.log('Settings file not found');
+    }
   }, []);
 
   useEffect(() => {
