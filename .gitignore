@@ -106,3 +106,5 @@ dist
 settings.json
 electron/dist.css
 release-builds/
+out/
+dist/

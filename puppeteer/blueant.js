@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const settings = require('../settings.json');
 
 const run = (blueAntEntries, options) => {
   return new Promise(async (res, rej) => {
@@ -12,9 +11,9 @@ const run = (blueAntEntries, options) => {
   })
 }
 
-const runPuppeteer = async (blueAntEntries, options = { headless: true }) => {
+const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
   const browser = await puppeteer.launch({
-    headless: options.headless,
+    headless: headless,
     slowMo: 25
   })
   const page = await browser.newPage()

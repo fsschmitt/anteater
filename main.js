@@ -1,9 +1,9 @@
-const { app, BrowserWindow, globalShortcut } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const path = require('path')
 let win;
 require('./eventBus');
 
-let isDev = !app.isPackaged
+let isDev = false
 
 function createWindow () {
   // Create the browser window.
