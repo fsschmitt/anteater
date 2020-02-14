@@ -11,9 +11,9 @@ const run = (blueAntEntries, options) => {
   })
 }
 
-const runPuppeteer = async (blueAntEntries, options = { headless: true, settings }) => {
+const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
   const browser = await puppeteer.launch({
-    headless: options.headless,
+    headless: headless,
     slowMo: 25
   })
   const page = await browser.newPage()

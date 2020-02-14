@@ -7,7 +7,7 @@ const ipc = electron.ipcMain;
 
 ipc.on('fillBlueant', function(event, { data, showBrowser }){
   const runBlueAnt = require('./puppeteer/blueant');
-  const settings = fs.readFileSync(settingsPath, 'utf-8');
+  const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
   runBlueAnt(data, { headless: !showBrowser, settings })
     .then(() => {
       event.sender.send('fillBlueant:status', 'success');
@@ -19,7 +19,6 @@ ipc.on('fillBlueant', function(event, { data, showBrowser }){
 });
 
 ipc.on('saveSettings', function(event, data) {
-  console.log(data)
   try {
     fs.writeFileSync(settingsPath, JSON.stringify(data, null, 4), { flag: 'w' });
     event.sender.send('saveSettings:status', 'success');
