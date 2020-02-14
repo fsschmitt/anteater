@@ -1,5 +1,10 @@
-const ipc = require('electron').ipcMain;
+const electron = require('electron')
 const fs = require('fs');
+const path = require('path');
+
+const ipc = electron.ipcMain;
+
+const userDataPath = (electron.app || electron.remote.app).getPath('userData');
 
 ipc.on('fillBlueant', function(event, { data, showBrowser }){
   const runBlueAnt = require('./puppeteer/blueant');
@@ -16,9 +21,11 @@ ipc.on('fillBlueant', function(event, { data, showBrowser }){
 ipc.on('saveSettings', function(event, data) {
   console.log(data)
   try {
-    fs.writeFileSync('./settings.json', JSON.stringify(data, null, 4), 'utf-8');
+    fs.writeFileSync(path.join(userDataPath, 'settings.json'), JSON.stringify(data, null, 4), { flag: 'w' });
     event.sender.send('saveSettings:status', 'success');
+    console.log('SUCCESS')
   } catch(e) {
+    console.log('ERRR', e);
     event.sender.send('saveSettings:status', 'error');
   }
 });

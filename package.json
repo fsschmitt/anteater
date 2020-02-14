@@ -1,23 +1,54 @@
 {
   "name": "anteater",
+  "productName": "anteater",
   "version": "1.0.0",
-  "description": "",
+  "description": "Automate the bordeom out of BlutAnt",
   "main": "main.js",
   "scripts": {
-    "start-p": "node ./puppeteer/blueant.js",
-    "start": "electron .",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\"",
     "build": "parcel build electron/index.html --public-url .",
     "serve": "parcel electron/index.html",
-    "watch": "parcel electron/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "package-mac": "npm run build && electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/icon.icns --prune=true --out=release-builds",
-    "package-win": "npm run build && electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
-    "package-linux": "npm run build && electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/icon.png --prune=true --out=release-builds",
-    "package-all": "npm run package-mac && npm run package-win && npm run package-linux"
+    "watch": "parcel electron/index.html"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "assets/icons/icon"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "anteater_ef"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin",
+            "linux"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  },
   "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
     "classnames": "^2.2.6",
     "puppeteer": "^2.1.1",
     "react": "^16.12.0",
@@ -26,16 +57,12 @@
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
-    "cssnano": "^4.1.10",
-    "electron": "^8.0.0",
-    "electron-is-dev": "^1.1.0",
-    "electron-packager": "^14.2.1",
-    "eslint": "^6.1.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^1.7.0",
+    "@electron-forge/cli": "^6.0.0-beta.49",
+    "@electron-forge/maker-deb": "^6.0.0-beta.49",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.49",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.49",
+    "@electron-forge/maker-zip": "^6.0.0-beta.49",
+    "electron": "8.0.0",
     "parcel": "^1.12.4"
   }
 }

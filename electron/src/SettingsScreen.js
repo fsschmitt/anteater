@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import fs from "fs";
-const ipc = window.require("electron").ipcRenderer;
 
-const settingsFileLocation ="./settings.json";
+const fs = window.require('fs');
+const path = window.require('path');
+const electron = window.require('electron');
+const ipc = electron.ipcRenderer;
+
+const userDataPath = (electron.app || electron.remote.app).getPath('userData');
+const settingsFileLocation = path.join(userDataPath, "settings.json")
 
 const defaultSettings = {
   customerName: "KI Group",
