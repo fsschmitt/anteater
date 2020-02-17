@@ -30,8 +30,10 @@ const FillHoursScreen = () => {
   const [status, setStatus] = useState("Not filled");
   const [isLoading, setIsLoading] = useState(false);
   const [days, setDays] = useState(daysDefault);
+  const [isDirty, setIsDirty] = useState(false)
 
   const setDaysByName = (name, value) => {
+    setIsDirty(true);
     const updatedDays = days.map(weekday => {
       if (weekday.day === name) {
         return {
@@ -54,6 +56,9 @@ const FillHoursScreen = () => {
     const listener = function(_, response) {
       setStatus(`Blueant status: ${response}`);
       setIsLoading(false);
+      if (response === 'success') {
+        setIsDirty(false);
+      }
     }
 
     ipc.on("fillBlueant:status", listener);
@@ -112,8 +117,8 @@ const FillHoursScreen = () => {
         <div className="max-w-md w-full mx-auto flex flex-row justify-between">
           <input
             className={cn(
-              { "cursor-not-allowed": isLoading },
-              { "opacity-25": isLoading },
+              { "cursor-not-allowed": isLoading || !isDirty },
+              { "opacity-25": isLoading || !isDirty },
               "bg-blue-800 flex-grow-0 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded cursor-pointer"
             )}
             type="button"

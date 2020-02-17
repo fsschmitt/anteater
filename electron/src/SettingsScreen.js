@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
+import cn from "classnames";
 
-const fs = window.require('fs');
-const path = window.require('path');
-const electron = window.require('electron');
+const fs = window.require("fs");
+const path = window.require("path");
+const electron = window.require("electron");
 const ipc = electron.ipcRenderer;
 
-const userDataPath = (electron.app || electron.remote.app).getPath('userData');
-const settingsFileLocation = path.join(userDataPath, "settings.json")
+const userDataPath = (electron.app || electron.remote.app).getPath("userData");
+const settingsFileLocation = path.join(userDataPath, "settings.json");
 
 const defaultSettings = {
   customerName: "KI Group",
@@ -22,8 +23,10 @@ const SETTINGS_FIELDS = Object.keys(defaultSettings);
 const SettingsScreen = () => {
   const [settings, setSettings] = useState(defaultSettings);
   const [status, setStatus] = useState();
+  const [isDirty, setIsDirty] = useState(false);
 
   const setSettingsByName = (name, key) => {
+    setIsDirty(true);
     setSettings({
       ...settings,
       [name]: key
@@ -74,11 +77,11 @@ const SettingsScreen = () => {
             <div className="md:w-2/3">
               <input
                 className="bg-gray-100 appearance-none border-2 border-gray-300 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-600"
-                type={fieldName === 'password' ? 'password' : 'text'}
+                type={fieldName === "password" ? "password" : "text"}
                 name={fieldName}
                 onChange={e => {
                   e.preventDefault();
-                  setSettingsByName(fieldName, e.target.value)
+                  setSettingsByName(fieldName, e.target.value);
                 }}
                 value={settings[fieldName]}
               />
@@ -86,7 +89,14 @@ const SettingsScreen = () => {
           </div>
         ))}
         <input
-          className="bg-blue-800 flex-grow-0 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded"
+          disabled={!isDirty}
+          className={cn(
+            {
+              "opacity-25 cursor-not-allowed": !isDirty,
+              isDirty: "hover:bg-blue-400"
+            },
+            "bg-blue-800 flex-grow-0 text-white font-bold py-2 px-4 rounded"
+          )}
           type="submit"
           value="Save!"
         />
