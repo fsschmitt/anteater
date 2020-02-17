@@ -60,7 +60,6 @@ const FillHoursScreen = () => {
 
   useEffect(() => {
     const listener = function(_, response) {
-      setStatus(`Blueant status: ${response}`);
       setIsLoading(false);
       if (response === 'success') {
         setIsDirty(false);
@@ -85,7 +84,6 @@ const FillHoursScreen = () => {
     event.preventDefault();
 
     setIsLoading(true);
-    setStatus("Filling your blueant...");
     ipc.send("fillBlueant:request", { data: days });
   };
 
