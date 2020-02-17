@@ -27,11 +27,12 @@ let daysDefault = [
   }
 ];
 
+let persistedIsDirty = false;
+
 const FillHoursScreen = () => {
-  const [status, setStatus] = useState("Not filled");
   const [isLoading, setIsLoading] = useState(false);
   const [days, setDays] = useState(daysDefault);
-  const [isDirty, setIsDirty] = useState(false)
+  const [isDirty, setIsDirty] = useState(persistedIsDirty)
 
   const setDaysByName = (name, value) => {
     setIsDirty(true);
@@ -52,6 +53,10 @@ const FillHoursScreen = () => {
   useEffect(() => {
     daysDefault = days;
   }, [days])
+
+  useEffect(() => {
+    persistedIsDirty = isDirty;
+  }, [isDirty])
 
   useEffect(() => {
     const listener = function(_, response) {
