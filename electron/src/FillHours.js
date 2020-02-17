@@ -59,16 +59,16 @@ const FillHoursScreen = () => {
   }, [isDirty])
 
   useEffect(() => {
-    const listener = function(_, response) {
+    const listener = function(_, { status, error }) {
       setIsLoading(false);
-      if (response === 'success') {
+      if (status === 'success') {
         setIsDirty(false);
         toast.success('Your BlueAnt was filled with success!');
         return;
       }
 
-      if (response === 'error') {
-        toast.error('There was an error filling your BlueAnt');
+      if (status === 'error') {
+        toast.error(error);
         return;
       }
     }

@@ -12,10 +12,10 @@ ipc.on("fillBlueant:request", function(event, { data }) {
   const isHeadless = !appSettings.get('showBrowser');
   runBlueAnt(data, { headless: isHeadless, settings })
     .then(() => {
-      event.sender.send("fillBlueant:response", "success");
+      event.sender.send("fillBlueant:response", { status: "success" });
     })
-    .catch(err => {
-      event.sender.send("fillBlueant:response", "error");
+    .catch(error => {
+      event.sender.send("fillBlueant:response", {status: "error", error });
     });
 });
 
@@ -24,9 +24,9 @@ ipc.on("setUserSettings:request", function(event, data) {
     fs.writeFileSync(settingsPath, JSON.stringify(data, null, 4), {
       flag: "w"
     });
-    event.sender.send("setUserSettings:response", "success");
-  } catch (e) {
-    event.sender.send("setUserSettings:response", "error");
+    event.sender.send("setUserSettings:response", {status: "success"});
+  } catch (error) {
+    event.sender.send("setUserSettings:response", {status: "error", error});
   }
 });
 
@@ -35,6 +35,8 @@ ipc.on("getUserSettings:request", event => {
     const file = fs.readFileSync(settingsPath, "utf-8");
     const settings = JSON.parse(file);
 
-    event.sender.send("getUserSettings:response", settings);
-  } catch (e) {}
+    event.sender.send("getUserSettings:response", {status: 'success', data: settings});
+  } catch (error) {
+    event.sender.send("getUserSettings:response", {status: 'error', error });
+  }
 });

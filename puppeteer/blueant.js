@@ -6,7 +6,7 @@ const run = (blueAntEntries, options) => {
       await runPuppeteer(blueAntEntries, options)
       res()
     } catch(e) {
-      rej();
+      rej(e.message);
     }
   })
 }
@@ -17,6 +17,7 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
     slowMo: 25
   })
   const page = await browser.newPage()
+  page.setDefaultNavigationTimeout(10000);
 
   const navigationPromise = page.waitForNavigation()
 
@@ -26,22 +27,24 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
 
   await navigationPromise
 
-  await page.waitForSelector('.login_area > #login_form > form > .label:nth-child(6) > input')
-  await page.click('.login_area > #login_form > form > .label:nth-child(6) > input')
+  try {
+    await page.waitForSelector('.login_area > #login_form > form > .label:nth-child(6) > input')
+    await page.click('.login_area > #login_form > form > .label:nth-child(6) > input')
 
-  await page.type('.login_area > #login_form > form > .label:nth-child(6) > input', settings.username)
+    await page.type('.login_area > #login_form > form > .label:nth-child(6) > input', settings.username)
 
-  await page.waitForSelector('.login_area > #login_form > form > .label:nth-child(7) > input')
-  await page.click('.login_area > #login_form > form > .label:nth-child(7) > input')
+    await page.waitForSelector('.login_area > #login_form > form > .label:nth-child(7) > input')
+    await page.click('.login_area > #login_form > form > .label:nth-child(7) > input')
 
-  await page.type('.login_area > #login_form > form > .label:nth-child(7) > input', settings.password)
+    await page.type('.login_area > #login_form > form > .label:nth-child(7) > input', settings.password)
 
-  await page.waitForSelector('#login_content > .login_area > #login_form > form > .button')
-  await page.click('#login_content > .login_area > #login_form > form > .button')
-
-  await navigationPromise
-
-  await navigationPromise
+    await page.waitForSelector('#login_content > .login_area > #login_form > form > .button')
+    await page.click('#login_content > .login_area > #login_form > form > .button')
+    await navigationPromise
+    await navigationPromise
+  } catch(e) {
+    throw new Error('Error while logging in');
+  }
 
   // Time recording
   await page.waitForSelector('.nano-content > li:nth-child(2)')
@@ -68,28 +71,44 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
     await frame.type(durationSelector, '8')
 
     // Customer
-    const customerSelector = 'select[name=customer]'
-    await frame.waitForSelector(customerSelector)
-    const customerCode = await frame.$eval(`option[title*="${settings.customerName}"]`, el => el.value)
-    await frame.select(customerSelector, customerCode)
+    try {
+      const customerSelector = 'select[name=customer]'
+      await frame.waitForSelector(customerSelector)
+      const customerCode = await frame.$eval(`option[title*="${settings.customerName}"]`, el => el.value)
+      await frame.select(customerSelector, customerCode)
+    } catch(e) {
+      throw new Error('Error while choosing customer. Is it well written?')
+    }
 
     // Project
-    const projectSelector = 'select[name=projekt]'
-    await frame.waitForSelector(projectSelector)
-    const projectCode = await frame.$eval(`option[title*="${settings.projectName}"]`, el => el.value)
-    await frame.select(projectSelector, projectCode)
+    try {
+      const projectSelector = 'select[name=projekt]'
+      await frame.waitForSelector(projectSelector)
+      const projectCode = await frame.$eval(`option[title*="${settings.projectName}"]`, el => el.value)
+      await frame.select(projectSelector, projectCode)
+    } catch(e) {
+      throw new Error('Error while choosing project. Is it well written?')
+    }
 
     // Activity
-    const activitySelector = 'select[name=task]'
-    await frame.waitForSelector(activitySelector)
-    const sreCode = await frame.$eval(`option[title*="${settings.activityName}"]`, el => el.value)
-    await frame.select(activitySelector, sreCode)
+    try {
+      const activitySelector = 'select[name=task]'
+      await frame.waitForSelector(activitySelector)
+      const sreCode = await frame.$eval(`option[title*="${settings.activityName}"]`, el => el.value)
+      await frame.select(activitySelector, sreCode)
+    } catch(e) {
+      throw new Error('Error while choosing activity. Is it well written?')
+    }
 
     // Location
-    const locationSelector = 'select[name=taetigkeit]'
-    await frame.waitForSelector(locationSelector)
-    const locationCode = await frame.$eval(`option[title*="${settings.locationName}"]`, el => el.value)
-    await frame.select(locationSelector, locationCode)
+    try {
+      const locationSelector = 'select[name=taetigkeit]'
+      await frame.waitForSelector(locationSelector)
+      const locationCode = await frame.$eval(`option[title*="${settings.locationName}"]`, el => el.value)
+      await frame.select(locationSelector, locationCode)
+    } catch(e) {
+      throw new Error('Error while choosing location. Is it well written?')
+    }
 
     // Description
     const descriptionSelector = 'textarea[name=bemerkung1000]'

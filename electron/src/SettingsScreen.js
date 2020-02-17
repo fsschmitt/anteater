@@ -40,13 +40,13 @@ const SettingsScreen = () => {
   }, []);
 
   useEffect(() => {
-    const listener = function(_, response) {
-      if (response === 'success') {
+    const listener = function(_, { status }) {
+      if (status === 'success') {
         toast.success('Settings saved with success!');
         return;
       }
 
-      if (response === 'error') {
+      if (status === 'error') {
         toast.error('Error saving your settings');
         return;
       }
