@@ -15,7 +15,6 @@ ipc.on("fillBlueant:request", function(event, { data }) {
       event.sender.send("fillBlueant:response", "success");
     })
     .catch(err => {
-      console.error(err);
       event.sender.send("fillBlueant:response", "error");
     });
 });
@@ -26,9 +25,7 @@ ipc.on("setUserSettings:request", function(event, data) {
       flag: "w"
     });
     event.sender.send("setUserSettings:response", "success");
-    console.log("SUCCESS");
   } catch (e) {
-    console.log("ERRR", e);
     event.sender.send("setUserSettings:response", "error");
   }
 });
