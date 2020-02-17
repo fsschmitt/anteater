@@ -8,7 +8,7 @@ const App = () => {
     <Router>
       <div className="py-2 w-screen fixed bg-blue-900 border-blue-800 z-10 border-b-1 border-t-0 border-r-0 border-l-0">
         <ul className="flex w-full mx-auto max-w-md">
-          <li className="px-3 border-r">
+          <li className="px-0 pr-3 border-r">
             <NavLink exact activeClassName="text-blue-300" className="text-white hover:text-blue-800" to="/">
               Fill hours
             </NavLink>
