@@ -3,7 +3,7 @@ import cn from "classnames";
 import Loading from "./Loading";
 const ipc = window.require("electron").ipcRenderer;
 
-const daysDefault = [
+let daysDefault = [
   {
     day: "Monday",
     text: ""
@@ -45,6 +45,10 @@ const FillHoursScreen = () => {
 
     setDays(updatedDays);
   };
+
+  useEffect(() => {
+    daysDefault = days;
+  }, [days])
 
   useEffect(() => {
     const listener = function(_, response) {
