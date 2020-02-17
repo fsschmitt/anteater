@@ -97,7 +97,7 @@ const FillHoursScreen = () => {
   return (
     <div>
       {isLoading && (
-        <div className="fixed flex flex-col w-full h-full z-10 margin items-center justify-center">
+        <div className="absolute flex flex-col w-full inset-0 h-full z-10 margin items-center justify-center">
           <Loading />
           <button
             className="bg-red-800 mt-2 flex-grow-0 text-white font-bold py-2 px-4 rounded cursor-pointer"

@@ -144,12 +144,6 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
     .then(tables => tables[0].asElement());
   const boundingBox = await workHoursTable.boundingBox();
   const screenshot = await workHoursTable.screenshot({
-    clip: {
-      x: boundingBox.x,
-      y: boundingBox.y,
-      width: Math.min(boundingBox.width, page.viewport().width),
-      height: Math.min(boundingBox.height, page.viewport().height),
-    },
     encoding: 'base64',
   })
 

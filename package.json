@@ -13,7 +13,7 @@
     "make": "run-s build electron-forge-make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "build": "parcel build electron/index.html --public-url .",
+    "build": "parcel build electron/index.html --public-url . --no-source-maps",
     "serve": "parcel electron/index.html",
     "watch": "parcel electron/index.html"
   },
