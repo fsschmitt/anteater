@@ -61,10 +61,10 @@ const FillHoursScreen = () => {
       }
     }
 
-    ipc.on("fillBlueant:status", listener);
+    ipc.on("fillBlueant:response", listener);
 
     return () => {
-      ipc.off("fillBlueant:status", listener);
+      ipc.off("fillBlueant:response", listener);
     };
   }, [ipc]);
 
@@ -73,7 +73,7 @@ const FillHoursScreen = () => {
 
     setIsLoading(true);
     setStatus("Filling your blueant...");
-    ipc.send("fillBlueant", { data: days, showBrowser: false });
+    ipc.send("fillBlueant:request", { data: days });
   };
 
   const isSuccess = status === "success";
@@ -119,8 +119,10 @@ const FillHoursScreen = () => {
             className={cn(
               { "cursor-not-allowed": isLoading || !isDirty },
               { "opacity-25": isLoading || !isDirty },
-              "bg-blue-800 flex-grow-0 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded cursor-pointer"
+              { "hover:bg-blue-400": isDirty },
+              "bg-blue-800 flex-grow-0 text-white font-bold py-2 px-4 rounded cursor-pointer"
             )}
+            disabled={!isDirty}
             type="button"
             value="Fill it!"
             onClick={onSubmit}

@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import cn from "classnames";
-
-const fs = window.require("fs");
-const path = window.require("path");
-const electron = window.require("electron");
-const ipc = electron.ipcRenderer;
-
-const userDataPath = (electron.app || electron.remote.app).getPath("userData");
-const settingsFileLocation = path.join(userDataPath, "settings.json");
+import * as userSettings from './utils/userSettings';
 
 const defaultSettings = {
   customerName: "KI Group",
@@ -22,7 +15,6 @@ const SETTINGS_FIELDS = Object.keys(defaultSettings);
 
 const SettingsScreen = () => {
   const [settings, setSettings] = useState(defaultSettings);
-  const [status, setStatus] = useState();
   const [isDirty, setIsDirty] = useState(false);
 
   const setSettingsByName = (name, key) => {
@@ -35,31 +27,16 @@ const SettingsScreen = () => {
 
   const onSubmit = event => {
     event.preventDefault();
-    ipc.send("saveSettings", settings);
+    userSettings.save(settings)
+    setIsDirty(false);
   };
 
   useEffect(() => {
-    try {
-      const localSettings = fs.readFileSync(settingsFileLocation, "utf-8");
-      setSettings(JSON.parse(localSettings));
-    } catch(e) {
-      console.log('Settings file not found', e);
-    }
+    userSettings.getAll().then((savedUserSettings) => {
+      console.log(savedUserSettings)
+      setSettings(savedUserSettings)
+    })
   }, []);
-
-  useEffect(() => {
-    const listener = function(_, response) {
-      console.log(response)
-      setStatus(response);
-      // setIsLoading(false);
-    };
-
-    ipc.on("saveSettings:status", listener);
-
-    return () => {
-      ipc.off("saveSettings:status", listener);
-    };
-  }, [ipc]);
 
   return (
     <div className="container w-screen justify-center items-center p-2 relative">

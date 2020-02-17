@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
+const appSettings = require('./appSettings');
 let win;
 require('./eventBus');
 
@@ -20,6 +21,31 @@ function createWindow () {
     },
     icon: path.join(__dirname, 'assets/icons/icon.png')
   })
+
+  const menu = Menu.buildFromTemplate([
+    {
+        label: 'Menu',
+        submenu: [
+          {
+            label: 'Show browser',
+            click() {
+              appSettings.toggle('showBrowser');
+            },
+            type: 'checkbox',
+            checked: appSettings.get('showBrowser'),
+            accelerator: 'CmdOrCtrl+Shift+I'
+          },
+          {type:'separator'},
+          {
+            label: 'Exit',
+            click() {
+              app.quit();
+            }
+          },
+        ]
+    }
+  ])
+  Menu.setApplicationMenu(menu);
 
   win.once('ready-to-show', () => {
     win.show()
