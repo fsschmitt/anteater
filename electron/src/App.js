@@ -9,7 +9,7 @@ const App = () => {
   return (
     <Router>
       <div className="py-2 w-screen fixed bg-blue-900 border-blue-800 z-10 border-b-1 border-t-0 border-r-0 border-l-0">
-        <ul className="flex w-full mx-auto max-w px-3">
+        <ul className="flex w-full mx-auto max-w px-6">
           <li className="px-0 pr-3 border-r">
             <NavLink exact activeClassName="text-blue-300" className="text-white hover:text-blue-800" to="/">
               Fill hours
@@ -22,7 +22,7 @@ const App = () => {
           </li>
         </ul>
       </div>
-      <div className="bg-gray-100 h-full pt-6 px-3 ">
+      <div className="bg-gray-100 h-full pt-6 px-6 py-6 ">
         <ToastContainer hideProgressBar />
         <Switch>
           <Route exact path="/" component={FillHoursScreen}/>
