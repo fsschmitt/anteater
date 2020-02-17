@@ -3,7 +3,7 @@ const path = require('path')
 let win;
 require('./eventBus');
 
-let isDev = false
+let isDev = !app.isPackaged
 
 function createWindow () {
   // Create the browser window.
