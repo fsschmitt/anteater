@@ -33,7 +33,7 @@ function createWindow () {
             },
             type: 'checkbox',
             checked: appSettings.get('showBrowser'),
-            accelerator: 'CmdOrCtrl+Shift+I'
+            accelerator: 'CmdOrCtrl+Shift+B'
           },
           {type:'separator'},
           {

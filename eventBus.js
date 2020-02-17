@@ -20,16 +20,16 @@ ipc.on("fillBlueant:request", function(event, { data }) {
     });
 });
 
-ipc.on("saveUserSettings:request", function(event, data) {
+ipc.on("setUserSettings:request", function(event, data) {
   try {
     fs.writeFileSync(settingsPath, JSON.stringify(data, null, 4), {
       flag: "w"
     });
-    event.sender.send("saveUserSettings:response", "success");
+    event.sender.send("setUserSettings:response", "success");
     console.log("SUCCESS");
   } catch (e) {
     console.log("ERRR", e);
-    event.sender.send("saveUserSettings:response", "error");
+    event.sender.send("setUserSettings:response", "error");
   }
 });
 
