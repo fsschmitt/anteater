@@ -11,8 +11,8 @@ ipc.on("fillBlueant:request", function(event, { data }) {
   const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
   const isHeadless = !appSettings.get('showBrowser');
   blueant.run(data, { headless: isHeadless, settings })
-    .then(() => {
-      event.sender.send("fillBlueant:response", { status: "success" });
+    .then((screenshot) => {
+      event.sender.send("fillBlueant:response", { status: "success", data: screenshot });
     })
     .catch(error => {
       event.sender.send("fillBlueant:response", {status: "error", error });

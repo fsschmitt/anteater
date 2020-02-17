@@ -3,8 +3,8 @@ const puppeteer = require('puppeteer');
 const run = (blueAntEntries, options) => {
   return new Promise(async (res, rej) => {
     try {
-      await runPuppeteer(blueAntEntries, options)
-      res()
+      const screenshot = await runPuppeteer(blueAntEntries, options)
+      res(screenshot);
     } catch(e) {
       rej(e.message);
     }
@@ -33,13 +33,11 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
   const page = await browser.newPage()
   page.setDefaultNavigationTimeout(10000);
 
-  const navigationPromise = page.waitForNavigation()
+  const navigationPromise = () => page.waitForNavigation()
 
   await page.goto('https://blueantasp26.proventis.net/kiperformance//psap')
 
   await page.setViewport({ width: 1329, height: 723 })
-
-  await navigationPromise
 
   try {
     await page.waitForSelector('.login_area > #login_form > form > .label:nth-child(6) > input')
@@ -54,8 +52,7 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
 
     await page.waitForSelector('#login_content > .login_area > #login_form > form > .button')
     await page.click('#login_content > .login_area > #login_form > form > .button')
-    await navigationPromise
-    await navigationPromise
+    await navigationPromise()
   } catch(e) {
     throw new Error('Error while logging in');
   }
@@ -64,13 +61,13 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
   await page.waitForSelector('.nano-content > li:nth-child(2)')
   await page.click('.nano-content > li:nth-child(2)')
 
-  await page.waitFor(2000)
+  await page.waitForSelector('[name*="oldiframe"]');
+  const frame = await page.frames().find(f => f.name().includes('oldiframe'));
 
-  const frame = await page.frames().find(f => f.name().indexOf('oldiframe') !== -1)
-
+  await frame.waitForSelector('.cm_curr_kw_day:not(.cm_weekend)');
   let weekDays = await frame.$$('.cm_curr_kw_day:not(.cm_weekend)')
 
-  for (var i = 0; i < weekDays.length; i++) {
+  for (var i = 0; i < weekDays.length; i++) {
     if(!blueAntEntries[i].text) {
       continue;
     }
@@ -141,9 +138,25 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
   }
 
   // Screenshot
+  await frame.waitForSelector('.ba.ba-fixed-headers.table.ba-fixedtable');
+
+  const workHoursTable = await frame.$$('.ba.ba-fixed-headers.table.ba-fixedtable')
+    .then(tables => tables[0].asElement());
+  const boundingBox = await workHoursTable.boundingBox();
+  const screenshot = await workHoursTable.screenshot({
+    clip: {
+      x: boundingBox.x,
+      y: boundingBox.y,
+      width: Math.min(boundingBox.width, page.viewport().width),
+      height: Math.min(boundingBox.height, page.viewport().height),
+    },
+    encoding: 'base64',
+  })
 
   await browser.close()
   runningInstance = null;
+
+  return screenshot;
 }
 
 exports.run = run;

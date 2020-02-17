@@ -60,15 +60,15 @@ const SettingsScreen = () => {
   }, [ipc]);
 
   return (
-    <div className="container w-screen justify-center items-center p-2 relative">
-      <form onSubmit={onSubmit} className="w-full mx-auto max-w-md">
+    <div className="container justify-center items-center relative pt-3">
+      <form onSubmit={onSubmit} className="mx-auto">
         <h3 className="text-xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
           Settings
         </h3>
         {SETTINGS_FIELDS.map(fieldName => (
           <div className="md:flex md:items-center mb-2" key={fieldName}>
             <div className="md:w-1/3">
-              <label className="block capitalize text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+              <label className="block capitalize text-gray-500 font-bold md:text-right mb-1 mb-0 pr-4">
                 {fieldName}
               </label>
             </div>

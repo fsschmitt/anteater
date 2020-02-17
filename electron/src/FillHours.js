@@ -33,6 +33,7 @@ const FillHoursScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [days, setDays] = useState(daysDefault);
   const [isDirty, setIsDirty] = useState(persistedIsDirty);
+  const [weekPreview, setWeekPreview] = useState(null);
 
   const setDaysByName = (name, value) => {
     setIsDirty(true);
@@ -59,9 +60,10 @@ const FillHoursScreen = () => {
   }, [isDirty]);
 
   useEffect(() => {
-    const listener = function(_, { status, error }) {
+    const listener = function(_, { status, error, data }) {
       setIsLoading(false);
       if (status === "success") {
+        setWeekPreview(`data:image/png;base64, ${data}`);
         setIsDirty(false);
         toast.success("Your BlueAnt was filled with success!");
         return;
@@ -83,7 +85,7 @@ const FillHoursScreen = () => {
   const cancelBlueant = () => {
     setIsLoading(false);
     ipc.send("cancelFillBlueant");
-  }
+  };
 
   const onSubmit = event => {
     event.preventDefault();
@@ -105,14 +107,15 @@ const FillHoursScreen = () => {
           </button>
         </div>
       )}
-      <div className="container w-screen h-full justify-center items-center p-2 relative">
+      <div className="container justify-center items-center relative pt-3">
         <form
-          className={cn("w-full mx-auto max-w-md", { "opacity-50": isLoading })}
+          className={cn("mx-auto", { "opacity-50": isLoading })}
           onSubmit={onSubmit}
         >
           <h3 className="text-xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
             What have you done this week?
           </h3>
+          {weekPreview && <img src={weekPreview} />}
           {days.map(weekday => (
             <div className="md:flex md:items-center mb-2" key={weekday.day}>
               <div className="md:w-1/3">
@@ -132,13 +135,13 @@ const FillHoursScreen = () => {
               </div>
             </div>
           ))}
-          <div className="max-w-md w-full mx-auto flex flex-row justify-between">
+          <div className="max-w w-full mx-auto flex flex-row justify-between">
             <input
               className={cn(
                 { "cursor-not-allowed": isLoading || !isDirty },
                 { "opacity-25": isLoading || !isDirty },
                 { "hover:bg-blue-400": isDirty },
-                "bg-blue-800 flex-grow-0 text-white font-bold py-2 px-4 rounded cursor-pointer"
+                "bg-blue-800 flex-grow-0 text-white font-bold py-2 p-4 rounded cursor-pointer"
               )}
               disabled={!isDirty}
               type="submit"
