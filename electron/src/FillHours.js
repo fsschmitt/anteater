@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import Loading from "./Loading";
+import { toast } from 'react-toastify';
 const ipc = window.require("electron").ipcRenderer;
 
 let daysDefault = [
@@ -58,6 +59,13 @@ const FillHoursScreen = () => {
       setIsLoading(false);
       if (response === 'success') {
         setIsDirty(false);
+        toast.success('Your BlueAnt was filled with success!');
+        return;
+      }
+
+      if (response === 'error') {
+        toast.error('There was an error filling your BlueAnt');
+        return;
       }
     }
 
@@ -75,9 +83,6 @@ const FillHoursScreen = () => {
     setStatus("Filling your blueant...");
     ipc.send("fillBlueant:request", { data: days });
   };
-
-  const isSuccess = status === "success";
-  const isError = status === "error";
 
   return (
     <div>
@@ -127,18 +132,6 @@ const FillHoursScreen = () => {
             value="Fill it!"
             onClick={onSubmit}
           />
-          <div
-            className={cn(
-              "text-sm flex items-center",
-              {
-                "text-green-700": isSuccess,
-                "text-red-600": isError
-              },
-              !isSuccess && !isError && "text-blue-600"
-            )}
-          >
-            Status: {status}
-          </div>
         </div>
       </div>
     </div>

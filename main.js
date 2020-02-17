@@ -22,6 +22,8 @@ function createWindow () {
     icon: path.join(__dirname, 'assets/icons/icon.png')
   })
 
+  isDev && win.webContents.openDevTools();
+
   const menu = Menu.buildFromTemplate([
     {
         label: 'Menu',

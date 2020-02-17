@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import cn from "classnames";
+import { toast } from 'react-toastify';
 import * as userSettings from './utils/userSettings';
+const ipc = window.require("electron").ipcRenderer;
 
 const defaultSettings = {
   customerName: "KI Group",
@@ -33,10 +35,29 @@ const SettingsScreen = () => {
 
   useEffect(() => {
     userSettings.getAll().then((savedUserSettings) => {
-      console.log(savedUserSettings)
       setSettings(savedUserSettings)
     })
   }, []);
+
+  useEffect(() => {
+    const listener = function(_, response) {
+      if (response === 'success') {
+        toast.success('Settings saved with success!');
+        return;
+      }
+
+      if (response === 'error') {
+        toast.error('Error saving your settings');
+        return;
+      }
+    };
+
+    ipc.on("setUserSettings:response", listener);
+
+    return () => {
+      ipc.off("setUserSettings:response", listener);
+    };
+  }, [ipc]);
 
   return (
     <div className="container w-screen justify-center items-center p-2 relative">

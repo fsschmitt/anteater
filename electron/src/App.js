@@ -1,7 +1,9 @@
 import React from "react";
 import { MemoryRouter as Router, Switch, Route, NavLink, Redirect } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 import FillHoursScreen from "./FillHours";
 import SettingsScreen from "./SettingsScreen";
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
@@ -21,6 +23,7 @@ const App = () => {
         </ul>
       </div>
       <div className="bg-gray-100 h-full pt-6">
+        <ToastContainer />
         <Switch>
           <Route exact path="/" component={FillHoursScreen}/>
           <Route exact path="/settings" component={SettingsScreen} />
