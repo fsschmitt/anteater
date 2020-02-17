@@ -7,8 +7,8 @@
   "scripts": {
     "start": "electron-forge start",
     "dev": "run-p serve start",
-    "prebuild": "rm -rf dist",
-    "premake": "rm -rf out",
+    "prebuild": "rm -rf dist/",
+    "premake": "rm -rf out/",
     "electron-forge-make": "electron-forge make",
     "make": "run-s build electron-forge-make",
     "publish": "electron-forge publish",
