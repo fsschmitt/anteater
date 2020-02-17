@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import Loading from "./Loading";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 const ipc = window.require("electron").ipcRenderer;
 
 let daysDefault = [
@@ -32,7 +32,7 @@ let persistedIsDirty = false;
 const FillHoursScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [days, setDays] = useState(daysDefault);
-  const [isDirty, setIsDirty] = useState(persistedIsDirty)
+  const [isDirty, setIsDirty] = useState(persistedIsDirty);
 
   const setDaysByName = (name, value) => {
     setIsDirty(true);
@@ -52,26 +52,26 @@ const FillHoursScreen = () => {
 
   useEffect(() => {
     daysDefault = days;
-  }, [days])
+  }, [days]);
 
   useEffect(() => {
     persistedIsDirty = isDirty;
-  }, [isDirty])
+  }, [isDirty]);
 
   useEffect(() => {
     const listener = function(_, { status, error }) {
       setIsLoading(false);
-      if (status === 'success') {
+      if (status === "success") {
         setIsDirty(false);
-        toast.success('Your BlueAnt was filled with success!');
+        toast.success("Your BlueAnt was filled with success!");
         return;
       }
 
-      if (status === 'error') {
+      if (status === "error") {
         toast.error(error);
         return;
       }
-    }
+    };
 
     ipc.on("fillBlueant:response", listener);
 
@@ -79,6 +79,11 @@ const FillHoursScreen = () => {
       ipc.off("fillBlueant:response", listener);
     };
   }, [ipc]);
+
+  const cancelBlueant = () => {
+    setIsLoading(false);
+    ipc.send("cancelFillBlueant");
+  }
 
   const onSubmit = event => {
     event.preventDefault();
@@ -90,8 +95,14 @@ const FillHoursScreen = () => {
   return (
     <div>
       {isLoading && (
-        <div className="fixed flex w-full h-full z-10 margin items-center justify-center">
+        <div className="fixed flex flex-col w-full h-full z-10 margin items-center justify-center">
           <Loading />
+          <button
+            className="bg-red-800 mt-2 flex-grow-0 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            onClick={cancelBlueant}
+          >
+            Cancel
+          </button>
         </div>
       )}
       <div className="container w-screen h-full justify-center items-center p-2 relative">
@@ -121,21 +132,21 @@ const FillHoursScreen = () => {
               </div>
             </div>
           ))}
+          <div className="max-w-md w-full mx-auto flex flex-row justify-between">
+            <input
+              className={cn(
+                { "cursor-not-allowed": isLoading || !isDirty },
+                { "opacity-25": isLoading || !isDirty },
+                { "hover:bg-blue-400": isDirty },
+                "bg-blue-800 flex-grow-0 text-white font-bold py-2 px-4 rounded cursor-pointer"
+              )}
+              disabled={!isDirty}
+              type="submit"
+              value="Fill it!"
+              onClick={onSubmit}
+            />
+          </div>
         </form>
-        <div className="max-w-md w-full mx-auto flex flex-row justify-between">
-          <input
-            className={cn(
-              { "cursor-not-allowed": isLoading || !isDirty },
-              { "opacity-25": isLoading || !isDirty },
-              { "hover:bg-blue-400": isDirty },
-              "bg-blue-800 flex-grow-0 text-white font-bold py-2 px-4 rounded cursor-pointer"
-            )}
-            disabled={!isDirty}
-            type="button"
-            value="Fill it!"
-            onClick={onSubmit}
-          />
-        </div>
       </div>
     </div>
   );

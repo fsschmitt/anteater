@@ -2,15 +2,15 @@ const electron = require("electron");
 const fs = require("fs");
 const path = require("path");
 const appSettings = require('./appSettings');
+const blueant = require("./puppeteer/blueant");
 const userDataPath = (electron.app || electron.remote.app).getPath("userData");
 const settingsPath = path.join(userDataPath, "settings.json");
 const ipc = electron.ipcMain;
 
 ipc.on("fillBlueant:request", function(event, { data }) {
-  const runBlueAnt = require("./puppeteer/blueant");
   const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
   const isHeadless = !appSettings.get('showBrowser');
-  runBlueAnt(data, { headless: isHeadless, settings })
+  blueant.run(data, { headless: isHeadless, settings })
     .then(() => {
       event.sender.send("fillBlueant:response", { status: "success" });
     })
@@ -18,6 +18,10 @@ ipc.on("fillBlueant:request", function(event, { data }) {
       event.sender.send("fillBlueant:response", {status: "error", error });
     });
 });
+
+ipc.on('cancelFillBlueant', () => {
+  blueant.cancel();
+})
 
 ipc.on("setUserSettings:request", function(event, data) {
   try {

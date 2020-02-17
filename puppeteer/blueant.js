@@ -11,11 +11,25 @@ const run = (blueAntEntries, options) => {
   })
 }
 
+const cancel = async () => {
+  if (!runningInstance) {
+    return
+  }
+
+  await runningInstance.close();
+  runningInstance = null;
+}
+
+// Used to cancel running stuff
+let runningInstance = null;
+
 const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
+  await cancel();
   const browser = await puppeteer.launch({
     headless: headless,
     slowMo: 25
   })
+  runningInstance = browser;
   const page = await browser.newPage()
   page.setDefaultNavigationTimeout(10000);
 
@@ -126,7 +140,11 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
     weekDays = await frame.$$('.cm_curr_kw_day:not(.cm_weekend)')
   }
 
+  // Screenshot
+
   await browser.close()
+  runningInstance = null;
 }
 
-module.exports = run;
+exports.run = run;
+exports.cancel = cancel;
