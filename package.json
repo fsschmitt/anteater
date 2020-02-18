@@ -6,11 +6,14 @@
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
+    "dev": "run-p serve start",
+    "prebuild": "rm -rf dist/",
+    "premake": "rm -rf out/",
+    "electron-forge-make": "electron-forge make",
+    "make": "run-s build electron-forge-make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "build": "parcel build electron/index.html --public-url .",
+    "build": "parcel build electron/index.html --public-url . --no-source-maps",
     "serve": "parcel electron/index.html",
     "watch": "parcel electron/index.html"
   },
@@ -59,6 +62,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
+    "react-toastify": "^5.5.0",
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
@@ -68,6 +72,7 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.49",
     "@electron-forge/maker-zip": "^6.0.0-beta.49",
     "electron": "8.0.0",
+    "npm-run-all": "^4.1.5",
     "parcel": "^1.12.4"
   }
 }

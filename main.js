@@ -1,9 +1,10 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
+const appSettings = require('./appSettings');
 let win;
 require('./eventBus');
 
-let isDev = false
+let isDev = !app.isPackaged
 
 function createWindow () {
   // Create the browser window.
@@ -20,6 +21,33 @@ function createWindow () {
     },
     icon: path.join(__dirname, 'assets/icons/icon.png')
   })
+
+  isDev && win.webContents.openDevTools();
+
+  const menu = Menu.buildFromTemplate([
+    {
+        label: 'Menu',
+        submenu: [
+          {
+            label: 'Show browser',
+            click() {
+              appSettings.toggle('showBrowser');
+            },
+            type: 'checkbox',
+            checked: appSettings.get('showBrowser'),
+            accelerator: 'CmdOrCtrl+Shift+B'
+          },
+          {type:'separator'},
+          {
+            label: 'Exit',
+            click() {
+              app.quit();
+            }
+          },
+        ]
+    }
+  ])
+  Menu.setApplicationMenu(menu);
 
   win.once('ready-to-show', () => {
     win.show()
