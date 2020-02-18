@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import Loading from "./Loading";
+import { toast } from "react-toastify";
 const ipc = window.require("electron").ipcRenderer;
 
-const daysDefault = [
+let daysDefault = [
   {
     day: "Monday",
     text: ""
@@ -26,12 +27,16 @@ const daysDefault = [
   }
 ];
 
+let persistedIsDirty = false;
+
 const FillHoursScreen = () => {
-  const [status, setStatus] = useState("Not filled");
   const [isLoading, setIsLoading] = useState(false);
   const [days, setDays] = useState(daysDefault);
+  const [isDirty, setIsDirty] = useState(persistedIsDirty);
+  const [weekPreview, setWeekPreview] = useState(null);
 
   const setDaysByName = (name, value) => {
+    setIsDirty(true);
     const updatedDays = days.map(weekday => {
       if (weekday.day === name) {
         return {
@@ -47,44 +52,70 @@ const FillHoursScreen = () => {
   };
 
   useEffect(() => {
-    const listener = function(_, response) {
-      setStatus(`Blueant status: ${response}`);
-      setIsLoading(false);
-    }
+    daysDefault = days;
+  }, [days]);
 
-    ipc.on("fillBlueant:status", listener);
+  useEffect(() => {
+    persistedIsDirty = isDirty;
+  }, [isDirty]);
+
+  useEffect(() => {
+    const listener = function(_, { status, error, data }) {
+      setIsLoading(false);
+      if (status === "success") {
+        setWeekPreview(`data:image/png;base64, ${data}`);
+        setIsDirty(false);
+        toast.success("Your BlueAnt was filled with success!");
+        return;
+      }
+
+      if (status === "error") {
+        toast.error(error);
+        return;
+      }
+    };
+
+    ipc.on("fillBlueant:response", listener);
 
     return () => {
-      ipc.off("fillBlueant:status", listener);
+      ipc.off("fillBlueant:response", listener);
     };
   }, [ipc]);
+
+  const cancelBlueant = () => {
+    setIsLoading(false);
+    ipc.send("cancelFillBlueant");
+  };
 
   const onSubmit = event => {
     event.preventDefault();
 
     setIsLoading(true);
-    setStatus("Filling your blueant...");
-    ipc.send("fillBlueant", { data: days, showBrowser: false });
+    ipc.send("fillBlueant:request", { data: days });
   };
-
-  const isSuccess = status === "success";
-  const isError = status === "error";
 
   return (
     <div>
       {isLoading && (
-        <div className="fixed flex w-full h-full z-10 margin items-center justify-center">
+        <div className="absolute flex flex-col w-full inset-0 h-full z-10 margin items-center justify-center">
           <Loading />
+          <button
+            className="bg-red-800 mt-2 flex-grow-0 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            onClick={cancelBlueant}
+          >
+            Cancel
+          </button>
         </div>
       )}
-      <div className="container w-screen h-full justify-center items-center p-2 relative">
+      <div className="container justify-center items-center relative pt-3">
         <form
-          className={cn("w-full mx-auto max-w-md", { "opacity-50": isLoading })}
+          className={cn("mx-auto", { "opacity-50": isLoading })}
           onSubmit={onSubmit}
         >
           <h3 className="text-xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
             What have you done this week?
           </h3>
+          {weekPreview && <img src={weekPreview} />}
           {days.map(weekday => (
             <div className="md:flex md:items-center mb-2" key={weekday.day}>
               <div className="md:w-1/3">
@@ -104,31 +135,21 @@ const FillHoursScreen = () => {
               </div>
             </div>
           ))}
-        </form>
-        <div className="max-w-md w-full mx-auto flex flex-row justify-between">
-          <input
-            className={cn(
-              { "cursor-not-allowed": isLoading },
-              { "opacity-25": isLoading },
-              "bg-blue-800 flex-grow-0 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded cursor-pointer"
-            )}
-            type="button"
-            value="Fill it!"
-            onClick={onSubmit}
-          />
-          <div
-            className={cn(
-              "text-sm flex items-center",
-              {
-                "text-green-700": isSuccess,
-                "text-red-600": isError
-              },
-              !isSuccess && !isError && "text-blue-600"
-            )}
-          >
-            Status: {status}
+          <div className="max-w w-full mx-auto flex flex-row justify-between">
+            <input
+              className={cn(
+                { "cursor-not-allowed": isLoading || !isDirty },
+                { "opacity-25": isLoading || !isDirty },
+                { "hover:bg-blue-400": isDirty },
+                "bg-blue-800 flex-grow-0 text-white font-bold py-2 p-4 rounded cursor-pointer"
+              )}
+              disabled={!isDirty}
+              type="submit"
+              value="Fill it!"
+              onClick={onSubmit}
+            />
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -10,3 +10,14 @@ html, body, #root {
 form input {
   display: block
 }
+
+.Toastify__toast--success {
+  color: #155724 !important;
+  background-color: #d4edda !important;
+  border-color: #c3e6cb !important;
+}
+.Toastify__toast--error {
+  color: #721c24 !important;
+  background-color: #f8d7da !important;
+  border-color: #f5c6cb !important;
+}
