@@ -1,12 +1,13 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
 const appSettings = require('./appSettings');
 let win;
 require('./eventBus');
+require('./sentry');
 
 let isDev = !app.isPackaged
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     show: false,
@@ -18,6 +19,7 @@ function createWindow () {
       nodeIntegration: true,
       scrollBounce: true,
       devTools: isDev,
+      preload: path.join(__dirname, 'sentry.js')
     },
     icon: path.join(__dirname, 'assets/icons/icon.png')
   })
@@ -68,3 +70,13 @@ function createWindow () {
 }
 
 app.whenReady().then(createWindow)
+
+ipcMain.on('anteater.error', () => {
+  console.log('Error triggered in main processes');
+  throw new Error('Error triggered in main processes');
+});
+
+ipcMain.on('anteater.crash', () => {
+  console.log('process.crash()');
+  process.crash();
+});
