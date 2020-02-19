@@ -1,7 +1,7 @@
 {
   "name": "anteater",
   "productName": "anteater",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Automate the bordeom out of BlutAnt",
   "main": "main.js",
   "scripts": {
