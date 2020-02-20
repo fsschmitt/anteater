@@ -2,10 +2,10 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
 const appSettings = require('./appSettings');
 let win;
-require('./eventBus');
-require('./sentry');
-
 let isDev = !app.isPackaged
+
+require('./eventBus');
+!isDev && require('./sentry');
 
 function createWindow() {
   // Create the browser window.

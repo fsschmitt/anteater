@@ -7,7 +7,12 @@ const run = (blueAntEntries, options) => {
       const screenshot = await runPuppeteer(blueAntEntries, options)
       res(screenshot);
     } catch (e) {
-      Sentry.captureException(e);
+      if (!isUserCancellation) {
+        console.log(e);
+        Sentry.captureException(e);
+      }
+
+      isUserCancellation = false;
       rej(e.message);
     }
   })
@@ -18,12 +23,14 @@ const cancel = async () => {
     return
   }
 
+  isUserCancellation = true;
   await runningInstance.close();
   runningInstance = null;
 }
 
 // Used to cancel running stuff
 let runningInstance = null;
+let isUserCancellation = false;
 
 const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
   await cancel();
