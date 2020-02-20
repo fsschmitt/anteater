@@ -1,7 +1,7 @@
 {
   "name": "anteater",
   "productName": "anteater",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Automate the bordeom out of BlutAnt",
   "main": "main.js",
   "scripts": {
@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@electron-forge/maker-dmg": "^6.0.0-beta.49",
+    "@sentry/electron": "^1.2.0",
     "classnames": "^2.2.6",
     "electron-squirrel-startup": "^1.0.0",
     "puppeteer": "^2.1.1",

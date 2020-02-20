@@ -1,11 +1,13 @@
 const puppeteer = require('puppeteer');
+const Sentry = require('@sentry/electron')
 
 const run = (blueAntEntries, options) => {
   return new Promise(async (res, rej) => {
     try {
       const screenshot = await runPuppeteer(blueAntEntries, options)
       res(screenshot);
-    } catch(e) {
+    } catch (e) {
+      Sentry.captureException(e);
       rej(e.message);
     }
   })
