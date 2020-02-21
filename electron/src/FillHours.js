@@ -115,7 +115,7 @@ const FillHoursScreen = () => {
           <h3 className="text-xl border-b mb-2 text-blue-800 leading-loose text-blue font-bold">
             What have you done this week?
           </h3>
-          {weekPreview && <img src={weekPreview} />}
+          {/* {weekPreview && <img src={weekPreview} />} */}
           {days.map(weekday => (
             <div className="md:flex md:items-center mb-2" key={weekday.day}>
               <div className="md:w-1/3">
