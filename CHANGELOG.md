@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/fsschmitt/anteater/compare/v1.2.0...v1.2.1) (2020-02-21)
+
+
+### Bug Fixes
+
+* **error-logging:** dont log in dev. Check for user cancelations ([41b1f2d](https://github.com/fsschmitt/anteater/commit/41b1f2d1036c82060c20c8149beafdb140078981))
+* **logging:** send proper user to sentry ([f0b76f1](https://github.com/fsschmitt/anteater/commit/f0b76f1c472c26cd68b2a3deb08608242b2f829c))
+
 ## [1.2.0](https://github.com/fsschmitt/anteater/compare/v1.0.0...v1.2.0) (2020-02-20)
 
 
