@@ -27,8 +27,10 @@ function createWindow() {
   isDev && win.webContents.openDevTools();
 
   const menu = Menu.buildFromTemplate([
+    { role: 'fileMenu' },
+    { role: 'editMenu'},
     {
-        label: 'Menu',
+        label: 'Debug',
         submenu: [
           {
             label: 'Show browser',
@@ -38,13 +40,6 @@ function createWindow() {
             type: 'checkbox',
             checked: appSettings.get('showBrowser'),
             accelerator: 'CmdOrCtrl+Shift+B'
-          },
-          {type:'separator'},
-          {
-            label: 'Exit',
-            click() {
-              app.quit();
-            }
           },
         ]
     }
