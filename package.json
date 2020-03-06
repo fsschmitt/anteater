@@ -12,10 +12,8 @@
     "electron-forge-make": "electron-forge make",
     "make": "run-s build electron-forge-make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\"",
-    "build": "parcel build electron/index.html --public-url . --no-source-maps",
-    "serve": "parcel electron/index.html",
-    "watch": "parcel electron/index.html",
+    "build": "parcel build ui/index.html --public-url . --no-source-maps",
+    "serve": "parcel ui/index.html",
     "release": "standard-version"
   },
   "keywords": [],
