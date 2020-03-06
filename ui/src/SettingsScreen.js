@@ -5,12 +5,13 @@ import * as userSettings from './utils/userSettings';
 const ipc = window.require("electron").ipcRenderer;
 
 const defaultSettings = {
-  customerName: "KI Group",
-  projectName: "KI labs Portugal - internal 2020 (KI labs Portugal - int 2020)",
-  activityName: "1 Internal projects",
-  locationName: "Office Lisbon",
-  username: "j.doe@kigroup.de",
-  password: "ThisIsMyPasswordForBlueAnt"
+  customerName: "Customer Name",
+  projectName: "Project Name",
+  activityName: "Activity Name",
+  locationName: "Location Name",
+  username: "User name",
+  password: "Password",
+  blueAntUrl: "https://blueantasp26.proventis.net/yourcompany//psap?"
 };
 
 const SETTINGS_FIELDS = Object.keys(defaultSettings);
