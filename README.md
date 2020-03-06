@@ -14,6 +14,8 @@ In this initial stage, it **enables a user to upload the descriptions of the ent
 
 Other future functionality can be found on the [issues page](https://github.com/fsschmitt/anteater/issues).
 
+___
+
 ## Tech Stack
 
 Currently anteater is built using `react` for the UI, with `tailwindcss` as the css library. `parcel` is used to compile the code that is then shipped into an `electron` app. `electron-forge` is used to help with the app packaging and distribution in multiple formats.
