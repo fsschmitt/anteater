@@ -20,7 +20,7 @@ ___
 
 Currently anteater is built using `react` for the UI, with `tailwindcss` as the css library. `parcel` is used to compile the code that is then shipped into an `electron` app. `electron-forge` is used to help with the app packaging and distribution in multiple formats.
 
-To build targeting `MacOS` you need a `MacOS` machine, the same happens with targeting `Debian` and `RedHat`, `electron-forge` supports that out of the box.
+To build targeting `MacOS` you need a `MacOS` machine, the same happens when targeting `Debian` and `RedHat`, `electron-forge` supports that out of the box.
 
 ## How to develop
 
