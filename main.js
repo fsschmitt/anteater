@@ -4,6 +4,7 @@ const appSettings = require('./electron/appSettings');
 let win;
 let isDev = !app.isPackaged
 
+require('update-electron-app')();
 require('./electron/eventBus');
 !isDev && require('./shared/sentry');
 
