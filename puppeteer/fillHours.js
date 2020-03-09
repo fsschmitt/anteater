@@ -44,7 +44,7 @@ const runPuppeteer = async (blueAntEntries, { headless, settings }) => {
 
   const navigationPromise = () => page.waitForNavigation()
 
-  await page.goto('https://blueantasp26.proventis.net/kiperformance//psap')
+  await page.goto(settings.blueAntUrl)
 
   await page.setViewport({ width: 1329, height: 723 })
 

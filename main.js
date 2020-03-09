@@ -1,11 +1,11 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
-const appSettings = require('./appSettings');
+const appSettings = require('./electron/appSettings');
 let win;
 let isDev = !app.isPackaged
 
-require('./eventBus');
-!isDev && require('./sentry');
+require('./electron/eventBus');
+!isDev && require('./shared/sentry');
 
 function createWindow() {
   // Create the browser window.
@@ -19,7 +19,7 @@ function createWindow() {
       nodeIntegration: true,
       scrollBounce: true,
       devTools: isDev,
-      preload: path.join(__dirname, 'sentry.js')
+      preload: path.join(__dirname, 'shared', 'sentry.js')
     },
     icon: path.join(__dirname, 'assets/icons/icon.png')
   })
