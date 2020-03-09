@@ -103,7 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-settings.json
 electron/dist.css
 release-builds/
 out/
