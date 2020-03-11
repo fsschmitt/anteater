@@ -63,7 +63,10 @@ const FillHoursScreen = () => {
     const listener = function(_, { status, error, data }) {
       setIsLoading(false);
       if (status === "success") {
-        setWeekPreview(`data:image/png;base64, ${data}`);
+        let modal = window.open('', 'modal')
+        const base64Img = `data:image/png;base64, ${data}`;
+        modal.document.write(`<img src="${base64Img}" />`)
+        setWeekPreview(base64Img);
         setIsDirty(false);
         toast.success("Your BlueAnt was filled with success!");
         return;
